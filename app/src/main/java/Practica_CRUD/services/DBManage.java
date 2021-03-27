@@ -2,6 +2,9 @@ package Practica_CRUD.services;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
+
+import Practica_CRUD.App;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
@@ -19,10 +22,13 @@ public class DBManage<T> {
 
     public DBManage(Class<T> claseEntidad) {
         if(emf == null) {
-            emf = Persistence.createEntityManagerFactory("DefaultPersistanceUnit");
+            if(App.getModoConexion().equalsIgnoreCase("Heroku")){
+                emf = getConfiguracionBaseDatosHeroku();
+            } else{
+                emf = Persistence.createEntityManagerFactory("DefaultPersistanceUnit");
+            }
         }
         this.claseEntidad = claseEntidad;
-
     }
 
     public EntityManager getEntityManager(){
