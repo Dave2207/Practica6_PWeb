@@ -26,6 +26,7 @@ public class App {
 
         Javalin app = Javalin.create(config -> {
             config.addStaticFiles("/templates");
+            config.enableCorsForAllOrigins();
         }).start(getHerokuAssignedPort());
 
         BaseDatos.getInstance().startDB();
